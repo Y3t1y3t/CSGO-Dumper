@@ -23,3 +23,4 @@
   -> m_dwGlowObject
   -> m_dwForceJump
   -> m_dwForceAttack
+ 
