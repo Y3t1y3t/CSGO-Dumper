@@ -41,8 +41,6 @@ namespace Dumper
 		bool CNetVarManager::Load( void )
 		{
 
-			pProcess->Attach( "csgo.exe" );
-
 			uintptr_t firstclass = pProcess->FindPattern( pProcess->GetModuleByName( "client.dll" ), ( unsigned char* )"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\x66\xC7\x05\xD0\x74\x00\x00\x00\x00\xC3", "xx????????xx????????xxxxx????x", Remote::SignatureType::READIT, 0x3B, 0x0 );
 
 			if( !firstclass )

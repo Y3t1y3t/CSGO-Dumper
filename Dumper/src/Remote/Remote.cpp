@@ -6,7 +6,7 @@ namespace Dumper
 	namespace Remote
 	{
 
-		CMemory::CMemory( const uintptr_t& base, const size_t& size ) : 
+		CMemory::CMemory( const uintptr_t& base, const size_t& size ) :
 			_base( base )
 		{
 
@@ -120,6 +120,9 @@ namespace Dumper
 		uintptr_t CProcess::FindPattern( CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset )
 		{
 
+			if( !pModule )
+				return false;
+
 			unsigned char* pDump = ( unsigned char* ) &pModule->GetDumpedBytes( ).at( 0 );
 			uintptr_t off = pModule->GetImgSize( ) - strlen( pMask );
 
@@ -195,6 +198,15 @@ namespace Dumper
 			}
 
 			CloseHandle( hSnapshot );
+
+			if( _modules.find( "client.dll" ) == _modules.end( ) ) {	// sanity - check :C
+				if( !_modules.empty( ) ) {
+					for( auto& m : _modules )
+						delete m.second;
+					_modules.clear( );
+				}
+			}
+
 			return bool( !_modules.empty( ) );
 		}
 	}
