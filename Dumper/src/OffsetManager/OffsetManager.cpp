@@ -18,7 +18,7 @@ namespace Dumper
 		void COffsetManager::Dump( void )
 		{
 
-			std::ofstream file( "NetVarManager.txt" );
+			std::ofstream file( "OffsetManager.txt" );
 			file << "- - - - - - Tool by Y3t1y3t ( uc ) - - - - - - " << std::endl;
 			file << "| -> http://www.unknowncheats.me/forum/counterstrike-global-offensive/100856-cs-go-offset-dumper-small-one.html" << std::endl;
 			file << "| -> " << Utilis::GetTime( );

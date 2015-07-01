@@ -7,7 +7,7 @@ int main( void )
 		return -1;
 
 	if( !pNetVarManager->Load( ) )
-		return -1;
+		return -2;
 
 	pNetVarManager->Dump( );
 	pOffsetManager->Dump( );
