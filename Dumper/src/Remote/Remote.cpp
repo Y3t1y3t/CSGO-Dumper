@@ -121,19 +121,19 @@ namespace Dumper
 		{
 
 			if( !pModule )
-				return false;
+				return 0;
 
 			unsigned char* pDump = ( unsigned char* ) &pModule->GetDumpedBytes( ).at( 0 );
 			uintptr_t off = pModule->GetImgSize( ) - strlen( pMask );
 
-			for( ; off != 0; --off ) {
-				if( CompareBytes( pDump + off, pPattern, pMask ) ) {
-					off = *pModule + off + pattern_offset;
+			for( uintptr_t i = 0; i < off; ++i ) {
+				if( CompareBytes( pDump + i, pPattern, pMask ) ) {
+					i += pModule->GetImgBase( ) + pattern_offset;
 					if( type & SignatureType::READIT )
-						ReadMemory( off, &off, sizeof( uintptr_t ) );
+						ReadMemory( i, &i, sizeof( uintptr_t ) );
 					if( type & SignatureType::SUBTRACT )
-						off -= pModule->GetImgBase( );
-					return off + address_offset;
+						i -= pModule->GetImgBase( );
+					return i + address_offset;
 				}
 			}
 			return 0;

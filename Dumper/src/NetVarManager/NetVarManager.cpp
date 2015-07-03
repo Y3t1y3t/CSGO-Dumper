@@ -1,4 +1,5 @@
 #include "HNetVarManager.h"
+#include <iostream>
 
 namespace Dumper
 {
@@ -41,7 +42,8 @@ namespace Dumper
 		bool CNetVarManager::Load( void )
 		{
 
-			uintptr_t firstclass = pProcess->FindPattern( pProcess->GetModuleByName( "client.dll" ), ( unsigned char* )"\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\xC7\x05\x00\x00\x00\x00\x00\x00\x00\x00\x66\xC7\x05\xD0\x74\x00\x00\x00\x00\xC3", "xx????????xx????????xxxxx????x", Remote::SignatureType::READIT, 0x3B, 0x0 );
+			uintptr_t firstclass = pProcess->FindPattern( pProcess->GetModuleByName( "client.dll" ), ( unsigned char* )"DT_TEWorldDecal", "xxxxxxxxxxxxxx", 0, 0, 0 );
+			firstclass = pProcess->FindPattern( pProcess->GetModuleByName( "client.dll" ), ( unsigned char* ) &firstclass, "xxxx", Remote::SignatureType::READIT, 0x2B, 0 );
 
 			if( !firstclass )
 				return false;
