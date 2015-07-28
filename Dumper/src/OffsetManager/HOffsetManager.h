@@ -11,37 +11,33 @@
 
 namespace Dumper
 {
+    namespace OffsetManager
+    {
+        class COffsetManager
+        {
+        public:
 
-	namespace OffsetManager
-	{
-
-		class COffsetManager
-		{
-		public:
-
-			COffsetManager( void );
-			~COffsetManager( void );
+                                                    COffsetManager( void );
+                                                    ~COffsetManager( void );
 
 
-		public:
+        public:
 
-			void Dump( void );
+            void                                    Dump( void );
 
 
-		private:
-	
-			void Dump( const std::string& tablename, const std::string& varname, uintptr_t offset, std::ofstream& file );		
-			void Dump( const std::string& tablename, const std::string& varname, Remote::CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset, std::ofstream& file );
-			void Log( const std::string& tablename, const std::string& varname, uintptr_t offset, std::ofstream& file );
-		};
+        private:
 
-		inline COffsetManager* Singleton( void )
-		{
+            void                                    Dump( const std::string& tablename, const std::string& varname, uintptr_t offset, std::ofstream& file );
+            void                                    Dump( const std::string& tablename, const std::string& varname, Remote::CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset, std::ofstream& file );
+            void                                    Log( const std::string& tablename, const std::string& varname, uintptr_t offset, std::ofstream& file );
+        };
 
-			static COffsetManager* __pOffsetManager = new COffsetManager( );
-			return __pOffsetManager;
-		}
-	}
+        inline COffsetManager* Singleton( void ) {
+            static auto __pOffsetManager = new COffsetManager( );
+            return __pOffsetManager;
+        }
+    }
 }
 
 #ifndef pOffsetManager

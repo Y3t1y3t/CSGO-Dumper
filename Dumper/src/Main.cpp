@@ -2,21 +2,20 @@
 
 int main( void )
 {
+    if( !pProcess->Attach( "csgo.exe" ) )
+        return -1;
 
-	if( !pProcess->Attach( "csgo.exe" ) )
-		return -1;
+    if( !pNetVarManager->Load( ) )
+        return -2;
 
-	if( !pNetVarManager->Load( ) )
-		return -2;
+    pNetVarManager->Dump( );
+    pOffsetManager->Dump( );
 
-	pNetVarManager->Dump( );
-	pOffsetManager->Dump( );
+    delete pOffsetManager;
 
-	delete pOffsetManager;
+    pNetVarManager->Release( );
+    delete pNetVarManager;
 
-	pNetVarManager->Release( );
-	delete pNetVarManager;
-
-	pProcess->Detach( );
-	delete pProcess;
+    pProcess->Detach( );
+    delete pProcess;
 }
