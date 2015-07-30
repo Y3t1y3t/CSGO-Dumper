@@ -1,5 +1,4 @@
 #include "HNetVarManager.h"
-#include <iostream>
 
 namespace Dumper
 {
@@ -50,23 +49,23 @@ namespace Dumper
                 if( !table.Get( ) )
                     continue;
 
-                ScanTable( table, 0, table.GetName( ) );
+                ScanTable( table, 0, table.GetName( ).c_str( ) );
             }
             return true;
         }
 
         void CNetVarManager::Dump( void )
         {
-            std::ofstream file( "NetVarManager.txt" );
-            file << "- - - - - - Tool by Y3t1y3t ( uc ) - - - - - - " << std::endl;
-            file << "| -> http://www.unknowncheats.me/forum/counterstrike-global-offensive/100856-cs-go-offset-dumper-small-one.html" << std::endl;
-            file << "| -> " << Utilis::GetTime( );
-            file << "- -" << std::endl << std::endl;
+            std::stringstream ss;
+            ss << "- - - - - - Tool by Y3t1y3t ( uc ) - - - - - - " << std::endl;
+            ss << "| -> http://www.unknowncheats.me/forum/counterstrike-global-offensive/100856-cs-go-offset-dumper-small-one.html" << std::endl;
+            ss << "| -> " << Utilis::GetTime( );
+            ss << "- -" << std::endl << std::endl;
 
             for( auto& table : _tables ) {
-                file << table.first << std::endl;
+                ss << table.first << std::endl;
                 for( auto& prop : table.second ) {
-                    file << std::setw( 53 )
+                    ss << std::setw( 53 )
                         << std::setfill( '_' )
                         << std::left
                         << ( std::string( prop.second->GetRun( ), '  ' ) + "|__" + prop.first ).c_str( )
@@ -79,6 +78,8 @@ namespace Dumper
                         << prop.second->GetOffset( ) << std::endl;
                 }
             }
+
+            std::ofstream( "NetVarManager.txt" ) << ss.str( );
         }
 
         void CNetVarManager::Release( void )
@@ -112,7 +113,7 @@ namespace Dumper
                 if( isdigit( pProp->GetName( )[ 0 ] ) )
                     continue;
 
-                _tables[ name ].push_back( std::pair<std::string, RecvProp*>( pProp->GetName( ), pProp ) );
+                _tables[ name ].push_back( std::pair<std::string, RecvProp*>( pProp->GetName( ).c_str( ), pProp ) );
 
                 auto child = pProp->GetTable( );
                 if( !child )

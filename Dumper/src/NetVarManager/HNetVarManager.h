@@ -8,6 +8,8 @@
 
 #include <map>
 #include <unordered_map>
+
+#include <sstream>
 #include <fstream>
 
 #pragma warning( disable : 4227 )
@@ -27,14 +29,15 @@ namespace Dumper
 
         public:
 
-            inline const char*                      GetName( void ) {
-                char buffer[ 32 ] = { 0 };
-                pProcess->ReadMemory( Get<DWORD>( 0xC ), &buffer, 32 );
-                return buffer;
+            inline std::string&                     GetName( std::string& name = std::string( ) )
+            {
+                name.resize( 32 );
+                pProcess->ReadMemory( Get<DWORD>( 0xC ), &name.at( 0 ), 32 );
+                return name;
             }
 
-            inline uintptr_t                        GetPropById( int id )       { return Get<uintptr_t>( 0x0 ) + id * 0x3C; }
-            inline int                              GetMaxProp( void )          { return Get<int>( 0x4 ); }
+            inline uintptr_t                        GetPropById( int id ) { return Get<uintptr_t>( 0x0 ) + id * 0x3C; }
+            inline int                              GetMaxProp( void ) { return Get<int>( 0x4 ); }
         };
 
         class RecvProp : public Remote::CMemory
@@ -47,15 +50,16 @@ namespace Dumper
 
         public:
 
-            inline const char*                      GetName( void ) {
-                char buffer[ 64 ] = { 0 };
-                pProcess->ReadMemory( Get<DWORD>( 0x0 ), &buffer, 64 );
-                return buffer;
+            inline std::string&                     GetName( std::string& name = std::string( ) )
+            {
+                name.resize( 64 );
+                pProcess->ReadMemory( Get<DWORD>( 0x0 ), &name.at( 0 ), 64 );
+                return name;
             }
-                                                                                
-            inline int                              GetOffset( void )           { return Get<int>( 0x2C ); }
-            inline uintptr_t                        GetTable( void )            { return Get<uintptr_t>( 0x28 ); }
-            inline const int& const                 GetRun( void )              { return _run; }
+
+            inline int                              GetOffset( void ) { return Get<int>( 0x2C ); }
+            inline uintptr_t                        GetTable( void ) { return Get<uintptr_t>( 0x28 ); }
+            inline const int& const                 GetRun( void ) { return _run; }
 
 
         protected:
@@ -68,20 +72,21 @@ namespace Dumper
         public:
 
             explicit                                ClientClass( const uintptr_t& base );
-                                                    ~ClientClass( void );
+            ~ClientClass( void );
 
 
         public:
 
-            inline const char*                      GetName( void ) {
-                char buffer[ 32 ] = { 0 };
-                pProcess->ReadMemory( Get<DWORD>( 0x8 ), &buffer, 32 );
-                return buffer;
+            inline std::string&                     GetName( std::string& name = std::string( ) )
+            {
+                name.resize( 64 );
+                pProcess->ReadMemory( Get<DWORD>( 0x8 ), &name.at( 0 ), 64 );
+                return name;
             }
 
-            inline uintptr_t                        GetTable( void )            { return Get<uintptr_t>( 0xC ); }
-            inline uintptr_t                        GetNextClass( void )        { return Get<uintptr_t>( 0x10 ); }
-            inline int                              GetId( void )               { return Get<int>( 0x14 ); }
+            inline uintptr_t                        GetTable( void ) { return Get<uintptr_t>( 0xC ); }
+            inline uintptr_t                        GetNextClass( void ) { return Get<uintptr_t>( 0x10 ); }
+            inline int                              GetId( void ) { return Get<int>( 0x14 ); }
         };
 
         typedef std::pair < std::string, RecvProp* >         stringProp;
@@ -118,7 +123,8 @@ namespace Dumper
             mapTable                                _tables;                    // recvtables dumped
         };
 
-        inline CNetVarManager* Singleton( void ) {
+        inline CNetVarManager* Singleton( void )
+        {
             static auto __pNetVarManager = new CNetVarManager( );
             return __pNetVarManager;
         }
