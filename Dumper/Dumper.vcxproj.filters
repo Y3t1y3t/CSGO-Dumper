@@ -27,37 +27,37 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\Remote\Remote.cpp">
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Remote\Remote.cpp">
       <Filter>src\Remote</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\NetVarManager\NetVarManager.cpp">
-      <Filter>src\NetVarManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\OffsetManager\OffsetManager.cpp">
+    <ClCompile Include="src\OffsetManager\OffsetManager.cpp">
       <Filter>src\OffsetManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\Main.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\NetVarManager\NetVarManager.cpp">
+      <Filter>src\NetVarManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Remote\HRemote.h">
       <Filter>src\Remote</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\Include\HWin.h">
-      <Filter>src\Include</Filter>
+    <ClInclude Include="src\HMain.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\Utilis\HUtilis.h">
+    <ClInclude Include="src\Utilis\HUtilis.h">
       <Filter>src\Utilis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\OffsetManager\HOffsetManager.h">
+    <ClInclude Include="src\OffsetManager\HOffsetManager.h">
       <Filter>src\OffsetManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\NetVarManager\HNetVarManager.h">
+    <ClInclude Include="src\NetVarManager\HNetVarManager.h">
       <Filter>src\NetVarManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Y3t1y3t%27s Dumper\Dumper\Dumper\src\HMain.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Include\HWin.h">
+      <Filter>src\Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
