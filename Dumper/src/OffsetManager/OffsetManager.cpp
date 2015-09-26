@@ -208,7 +208,7 @@ namespace Dumper
                                "xx????xx????xxxxxxxx",
                                Remote::SignatureType::READIT | Remote::SignatureType::SUBTRACT, 0x2, 0x0, ss );
 
-            DumpPatternOffset( "Extra", "m_dwSensitivy", pClient
+            DumpPatternOffset( "Extra", "m_dwSensitivity", pClient
                                , reinterpret_cast< unsigned char* >( "\xF3\x0F\x10\x05\x00\x00\x00\x00\xEB\x17\x8B\x01\x8B\x40\x30\xFF\xD0\xF3\x0F\x10\x0D\x00\x00\x00\x00" ),
                                "xxxx????xxxxxxxxxxxxx????",
                                Remote::SignatureType::READIT | Remote::SignatureType::SUBTRACT, 0x4, 0x0, ss );
