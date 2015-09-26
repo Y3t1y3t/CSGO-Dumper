@@ -88,17 +88,17 @@ namespace Dumper
             _hproc = nullptr;
         }
 
-        bool CProcess::ReadMemory( const uintptr_t& address, void* pBuffer, size_t size )
+        bool CProcess::ReadMemory( const uintptr_t& address, void* pBuffer, size_t size ) const
         {
             return bool( ReadProcessMemory( _hproc, LPCVOID( address ), pBuffer, size, nullptr ) == TRUE );
         }
 
-        bool CProcess::WriteMemory( uintptr_t& address, const void* pBuffer, size_t size )
+        bool CProcess::WriteMemory( uintptr_t& address, const void* pBuffer, size_t size ) const
         {
             return bool( WriteProcessMemory( _hproc, LPVOID( address ), pBuffer, size, nullptr ) == TRUE );
         }
 
-        bool CProcess::CompareBytes( unsigned char* pBytes, const unsigned char* pPattern, const char* pMask )
+        bool CProcess::CompareBytes( unsigned char* pBytes, const unsigned char* pPattern, const char* pMask ) const
         {
             for( auto i = 0; *pMask; ++pMask, ++pPattern, ++i ) {
                 if( *pMask != '?' && pBytes[ i ] != *pPattern ) {
@@ -108,7 +108,7 @@ namespace Dumper
             return true;
         }
 
-        uintptr_t CProcess::FindPattern( CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset )
+        uintptr_t CProcess::FindPattern( CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset ) const
         {
             if( !pModule ) {
                 return 0;
@@ -195,7 +195,7 @@ namespace Dumper
 
             CloseHandle( hSnapshot );
 
-            if( _modules.find( "client.dll" ) == _modules.end( ) ) { // sanity - check :C
+            if( _modules.find( "client.dll" ) == _modules.end( ) ) { // TODO: fix this -> sanity-check :S
                 if( !_modules.empty( ) ) {
                     for( auto& m : _modules ) {
                         delete m.second;

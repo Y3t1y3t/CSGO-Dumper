@@ -23,9 +23,9 @@ namespace Dumper
         public:
             enum
             {
-                NORMAL      = 0x0, // normal
-                READIT      = 0x1, // rpm at pattern
-                SUBTRACT    = 0x2, // subtract img base
+                NORMAL = 0x0, // normal
+                READIT = 0x1, // rpm at pattern
+                SUBTRACT = 0x2, // subtract img base
             };
         };
 
@@ -41,15 +41,16 @@ namespace Dumper
 
 
         public:
-            
-            template <typename _Ty> _Ty             Get( const uintptr_t& off ) {
-                if( off < _bytes.size( ) ) {
+
+            template <typename _Ty> _Ty             Get( const uintptr_t& off )
+            {
+                if( off < _bytes.size() ) {
                     return *reinterpret_cast< _Ty* >( &_bytes.at( off ) );
                 }
-                return _Ty( );
+                return _Ty();
             }
 
-            inline const uintptr_t& const           Get( void )             { return _base; }
+            const uintptr_t&                        Get( void ) const { return _base; }
 
 
         protected:
@@ -68,17 +69,17 @@ namespace Dumper
 
         public:
 
-            uintptr_t operator+( uintptr_t offset ) const                   { return _imgbase + offset; }
-            uintptr_t operator-( uintptr_t offset ) const                   { return _imgbase - offset; }
+            uintptr_t operator+( uintptr_t offset ) const { return _imgbase + offset; }
+            uintptr_t operator-( uintptr_t offset ) const { return _imgbase - offset; }
 
 
         public:
 
-            inline const std::string& const         GetName( void )         { return _name; }
-            inline const std::string& const         GetPath( void )         { return _path; }
-            inline const uintptr_t& const           GetImgSize( void )      { return _imgsize; }
-            inline const uintptr_t& const           GetImgBase( void )      { return _imgbase; }
-            inline const vecByte& const             GetDumpedBytes( void )  { return _bytes; }
+            const std::string&                      GetName( void ) const { return _name; }
+            const std::string&                      GetPath( void ) const { return _path; }
+            const uintptr_t&                        GetImgSize( void ) const { return _imgsize; }
+            const uintptr_t&                        GetImgBase( void ) const { return _imgbase; }
+            const vecByte&                          GetDumpedBytes( void ) const { return _bytes; }
 
 
         protected:
@@ -102,20 +103,29 @@ namespace Dumper
 
         public:
 
-            bool                                    Attach( const std::string& procname, const std::string& winname = std::string( ), const std::string& winclname = std::string( ), DWORD accessrights = PROCESS_ALL_ACCESS, DWORD maxwtime = 0 );
+            bool                                    Attach( const std::string& procname,
+                                                            const std::string& winname = std::string(),
+                                                            const std::string& winclname = std::string(),
+                                                            DWORD accessrights = PROCESS_ALL_ACCESS,
+                                                            DWORD maxwtime = 0 );
             void                                    Detach( void );
 
 
         public:
 
-            bool                                    ReadMemory( const uintptr_t& address, void* pBuffer, size_t size );
-            bool                                    WriteMemory( uintptr_t& address, const void* pBuffer, size_t size );
+            bool                                    ReadMemory( const uintptr_t& address, void* pBuffer, size_t size ) const;
+            bool                                    WriteMemory( uintptr_t& address, const void* pBuffer, size_t size ) const;
 
 
         public:
 
-            bool                                    CompareBytes( unsigned char* pBytes, const unsigned char* pPattern, const char* pMask );
-            uintptr_t                               FindPattern( CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset );
+            bool                                    CompareBytes( unsigned char* pBytes, const unsigned char* pPattern, const char* pMask ) const;
+            uintptr_t                               FindPattern( CModule* pModule,
+                                                                 const unsigned char* pPattern,
+                                                                 const char* pMask,
+                                                                 int type,
+                                                                 uintptr_t pattern_offset,
+                                                                 uintptr_t address_offset ) const;
 
 
         private:
@@ -127,11 +137,12 @@ namespace Dumper
 
         public:
 
-            inline const mapModule& const           GetModules( void )      { return _modules; }
+            const mapModule&                        GetModules( void ) const { return _modules; }
 
-            inline CModule*                         GetModuleByName( const std::string& name ) {
-                auto& res = _modules.find( name );
-                if( res != _modules.end( ) ) {
+            CModule*                                GetModuleByName( const std::string& name )
+            {
+                auto res = _modules.find( name );
+                if( res != _modules.end() ) {
                     return res->second;
                 }
                 return nullptr;
@@ -152,9 +163,10 @@ namespace Dumper
             mapModule                               _modules;               // unordered_map holds modules
         };
 
-        inline CProcess* Singleton( void ) {
-            static auto __pProcess = new CProcess( );
-            return __pProcess;
+        inline CProcess* Singleton( void )
+        {
+            static auto g_pProcess = new CProcess();
+            return g_pProcess;
         }
     }
 }

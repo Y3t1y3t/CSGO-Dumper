@@ -6,7 +6,6 @@
 #include "..\Include\HWin.h"
 
 #include <time.h>
-#include <iomanip>
 
 namespace Dumper
 {

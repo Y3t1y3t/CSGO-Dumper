@@ -1,10 +1,15 @@
 #include "HNetVarManager.h"
 
+#include "../Utilis/HUtilis.h"
+#include <iomanip>
+#include <sstream>
+
 namespace Dumper
 {
     namespace NetVarManager
     {
-        RecvTable::RecvTable( const uintptr_t& base ) : Remote::CMemory( base, 0x10 )
+        RecvTable::RecvTable( const uintptr_t& base ) :
+            CMemory( base, 0x10 )
         {
         }
 
@@ -12,7 +17,9 @@ namespace Dumper
         {
         }
 
-        RecvProp::RecvProp( const uintptr_t& base, int run ) : Remote::CMemory( base, 0x3C ), _run( run )
+        RecvProp::RecvProp( const uintptr_t& base, int run ) :
+            CMemory( base, 0x3C ),
+            _run( run )
         {
         }
 
@@ -20,7 +27,8 @@ namespace Dumper
         {
         }
 
-        ClientClass::ClientClass( const uintptr_t& base ) : Remote::CMemory( base, 0x28 )
+        ClientClass::ClientClass( const uintptr_t& base ) :
+            CMemory( base, 0x28 )
         {
         }
 
@@ -44,22 +52,23 @@ namespace Dumper
             if( !firstclass )
                 return false;
 
-            for( auto Class = ClientClass( firstclass ); Class.Get( ); Class = ClientClass( Class.GetNextClass( ) ) ) {
-                auto table = RecvTable( Class.GetTable( ) );
-                if( !table.Get( ) )
+            for( auto Class = ClientClass( firstclass ); Class.Get(); Class = ClientClass( Class.GetNextClass() ) ) {
+
+                auto table = RecvTable( Class.GetTable() );
+                if( !table.Get() )
                     continue;
 
-                ScanTable( table, 0, table.GetName( ).c_str( ) );
+                ScanTable( table, 0, table.GetName().c_str() );
             }
             return true;
         }
 
-        void CNetVarManager::Dump( void )
+        void CNetVarManager::Dump( void ) const
         {
             std::stringstream ss;
             ss << "- - - - - - Tool by Y3t1y3t ( uc ) - - - - - - " << std::endl;
             ss << "| -> http://www.unknowncheats.me/forum/counterstrike-global-offensive/100856-cs-go-offset-dumper-small-one.html" << std::endl;
-            ss << "| -> " << Utilis::GetTime( );
+            ss << "| -> " << Utilis::GetTime();
             ss << "- -" << std::endl << std::endl;
 
             for( auto& table : _tables ) {
@@ -68,18 +77,18 @@ namespace Dumper
                     ss << std::setw( 53 )
                         << std::setfill( '_' )
                         << std::left
-                        << ( std::string( prop.second->GetRun( ), '  ' ) + "|__" + prop.first ).c_str( )
+                        << ( std::string( prop.second->GetRun(), '  ' ) + "|__" + prop.first ).c_str()
                         << std::right
                         << std::hex
                         << " -> 0x"
                         << std::setw( 4 )
                         << std::setfill( '0' )
                         << std::uppercase
-                        << prop.second->GetOffset( ) << std::endl;
+                        << prop.second->GetOffset() << std::endl;
                 }
             }
 
-            std::ofstream( "NetVarManager.txt" ) << ss.str( );
+            std::ofstream( "NetVarManager.txt" ) << ss.str();
         }
 
         void CNetVarManager::Release( void )
@@ -88,18 +97,18 @@ namespace Dumper
                 for( auto& prop : table.second ) {
                     delete prop.second;
                 }
-                table.second.clear( );
+                table.second.clear();
             }
-            _tables.clear( );
+            _tables.clear();
         }
 
         int CNetVarManager::GetNetVar( const std::string& tablename, const std::string& varname )
         {
             auto table = _tables.find( tablename );
-            if( table != _tables.end( ) ) {
+            if( table != _tables.end() ) {
                 for( auto& prop : table->second ) {
                     if( prop.first == varname ) {
-                        return prop.second->GetOffset( );
+                        return prop.second->GetOffset();
                     }
                 }
             }
@@ -108,18 +117,19 @@ namespace Dumper
 
         void CNetVarManager::ScanTable( RecvTable& table, int run, const char* name )
         {
-            for( auto i = 0; i < table.GetMaxProp( ); ++i ) {
+            for( auto i = 0; i < table.GetMaxProp(); ++i ) {
                 auto pProp = new RecvProp( table.GetPropById( i ), run );
-                if( isdigit( pProp->GetName( )[ 0 ] ) )
+                if( isdigit( pProp->GetName()[ 0 ] ) )
                     continue;
 
-                _tables[ name ].push_back( std::pair<std::string, RecvProp*>( pProp->GetName( ).c_str( ), pProp ) );
+                _tables[ name ].push_back( std::pair<std::string, RecvProp*>( pProp->GetName().c_str(), pProp ) );
 
-                auto child = pProp->GetTable( );
+                auto child = pProp->GetTable();
                 if( !child )
                     continue;
 
-                ScanTable( RecvTable( child ), ++run, name );
+                auto recvTable = RecvTable( child );
+                ScanTable( recvTable, ++run, name );
             }
         }
     }
