@@ -194,9 +194,9 @@ namespace Dumper
                                Remote::SignatureType::READIT | Remote::SignatureType::SUBTRACT, 0x12, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwGlowObject", pClient,
-                               reinterpret_cast< unsigned char* >( "\x8B\x0D\x00\x00\x00\x00\xA1\x00\x00\x00\x00\x6B\xD6\x00" ),
-                               "xx????x????xx?",
-                               Remote::SignatureType::READIT | Remote::SignatureType::SUBTRACT, 0x2, 0x0, ss );
+                               reinterpret_cast< unsigned char* >( "\xA1\x00\x00\x00\x00\xA8\x01\x75\x00\x0F\x57\xC0\xC7\x05" ),
+                               "x????xxx?xxxxx",
+                               Remote::SignatureType::READIT | Remote::SignatureType::SUBTRACT, 0x58, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwForceJump", pClient,
                                reinterpret_cast< unsigned char* >( "\x89\x15\x00\x00\x00\x00\x8B\x15\x00\x00\x00\x00\xF6\xC2\x03\x74\x03\x83\xCE\x08" ),
