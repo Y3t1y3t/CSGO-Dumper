@@ -15,9 +15,14 @@ namespace Dumper
 
         CMemory::~CMemory( void )
         {
-            if( !_bytes.empty( ) ) {
-                _bytes.clear( );
+            if( !_bytes.empty() ) {
+                _bytes.clear();
             }
+        }
+
+        const uintptr_t& CMemory::Get( void ) const
+        {
+            return _base;
         }
 
         CModule::CModule( const std::string& name, const std::string& path, const uintptr_t& imgsize, const intptr_t& imgbase ) :
@@ -32,57 +37,84 @@ namespace Dumper
 
         CModule::~CModule( void )
         {
-            if( !_bytes.empty( ) ) {
-                _bytes.clear( );
+            if( !_bytes.empty() ) {
+                _bytes.clear();
             }
         }
 
-        CProcess::CProcess( void )
+        uintptr_t CModule::operator+( uintptr_t offset ) const
         {
+            return _imgbase + offset;
         }
 
-        CProcess::~CProcess( void )
+        uintptr_t CModule::operator-( uintptr_t offset ) const
         {
+            return _imgbase - offset;
+        }
+
+        const std::string& CModule::GetName() const
+        {
+            return _name;
+        }
+
+        const std::string& CModule::GetPath() const
+        {
+            return _path;
+        }
+
+        const uintptr_t& CModule::GetImgSize() const
+        {
+            return _imgsize;
+        }
+
+        const uintptr_t& CModule::GetImgBase() const
+        {
+            return _imgbase;
+        }
+
+        const vecByte& CModule::GetDumpedBytes() const
+        {
+            return _bytes;
         }
 
         bool CProcess::Attach( const std::string& procname, const std::string& winname /* = std::string( ) */, const std::string& winclname /* = std::string( ) */, DWORD accessrights /* = PROCESS_ALL_ACCESS */, DWORD maxwtime /* = 0 */ )
         {
-            Detach( );
+            Detach();
 
             _procname = procname;
             _winname = winname;
             _winclname = winclname;
 
             _accessrights = accessrights;
-            _haswindow = bool( !_winname.empty( ) || !_winclname.empty( ) );
+            _haswindow = bool( !_winname.empty() || !_winclname.empty() );
 
-            auto curtime = GetTickCount( );
+            auto curtime = GetTickCount();
             do {
-                if( !GetProcessID( ) )
+                if( !GetProcessID() )
                     continue;
 
-                if( !GetProcessHandle( ) )
+                if( !GetProcessHandle() )
                     continue;
 
-                if( GetProcessModules( ) )
+                if( GetProcessModules() )
                     return true;
-            } while( ( maxwtime != 0 ? ( GetTickCount( ) - curtime ) <= maxwtime : true ) );
+            } while( ( maxwtime != 0 ? ( GetTickCount() - curtime ) <= maxwtime : true ) );
 
             return false;
         }
 
         void CProcess::Detach( void )
         {
-            if( !_modules.empty( ) ) {
+            if( !_modules.empty() ) {
                 for( auto& m : _modules ) {
                     delete m.second;
                 }
-                _modules.clear( );
+                _modules.clear();
             }
 
-            _procname.clear( );
-            _winname.clear( );
-            _winclname.clear( );
+            _procname.clear();
+            _winname.clear();
+            _winclname.clear();
 
             _procid = 0;
             _hproc = nullptr;
@@ -98,40 +130,39 @@ namespace Dumper
             return bool( WriteProcessMemory( _hproc, LPVOID( address ), pBuffer, size, nullptr ) == TRUE );
         }
 
-        bool CProcess::CompareBytes( unsigned char* pBytes, const unsigned char* pPattern, const char* pMask ) const
+        bool CProcess::CompareBytes( const unsigned char* bytes, const char* pattern )
         {
-            for( auto i = 0; *pMask; ++pMask, ++pPattern, ++i ) {
-                if( *pMask != '?' && pBytes[ i ] != *pPattern ) {
+            for( ; *pattern; *pattern != ' ' ? ++bytes : bytes, ++pattern ) {
+                if( *pattern == ' ' || *pattern == '?' )
+                    continue;
+                if( *bytes != getByte( pattern ) )
                     return false;
-                }
+                ++pattern;
             }
             return true;
         }
 
-        uintptr_t CProcess::FindPattern( CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset ) const
+        uintptr_t CProcess::FindPattern( const std::string& module, const char* pattern, short type, uintptr_t patternOffset, uintptr_t addressOffset )
         {
-            if( !pModule ) {
+            auto mod = GetModuleByName( module );
+            if( !mod )
                 return 0;
-            }
 
-            auto pDump = const_cast< unsigned char* >( &pModule->GetDumpedBytes( ).at( 0 ) );
-            auto off = pModule->GetImgSize( ) - strlen( pMask );
+            auto pb = const_cast< unsigned char* >( &mod->GetDumpedBytes().at( 0 ) );
+            auto max = mod->GetImgSize() - 0x1000;
 
-            for( uintptr_t i = 0; i < off; ++i ) {
+            for( auto off = 0UL; off < max; ++off ) {
+                if( CompareBytes( pb + off, pattern ) ) {
 
-                if( CompareBytes( pDump + i, pPattern, pMask ) ) {
+                    auto add = mod->GetImgBase() + off + patternOffset;
 
-                    i += pModule->GetImgBase( ) + pattern_offset;
+                    if( type & SignatureType_t::READ )
+                        ReadMemory( add, &add, sizeof( uintptr_t ) );
 
-                    if( type & SignatureType::READIT ) {
-                        ReadMemory( i, &i, sizeof( uintptr_t ) );
-                    }
+                    if( type & SignatureType_t::SUBTRACT )
+                        add -= mod->GetImgBase();
 
-                    if( type & SignatureType::SUBTRACT ) {
-                        i -= pModule->GetImgBase( );
-                    }
-
-                    return i + address_offset;
+                    return add + addressOffset;
                 }
             }
             return 0;
@@ -140,7 +171,7 @@ namespace Dumper
         bool CProcess::GetProcessID( void )
         {
             if( _haswindow ) {
-                auto hWin = FindWindowA( _winclname.empty( ) ? NULL : _winclname.c_str( ), _winname.empty( ) ? NULL : _winname.c_str( ) );
+                auto hWin = FindWindowA( _winclname.empty() ? NULL : _winclname.c_str(), _winname.empty() ? NULL : _winname.c_str() );
                 if( hWin ) {
                     GetWindowThreadProcessId( hWin, &_procid );
                 }
@@ -195,15 +226,35 @@ namespace Dumper
 
             CloseHandle( hSnapshot );
 
-            if( _modules.find( "client.dll" ) == _modules.end( ) ) { // TODO: fix this -> sanity-check :S
-                if( !_modules.empty( ) ) {
+            if( _modules.find( "client.dll" ) == _modules.end() ) { // TODO: fix this -> sanity-check :S
+                if( !_modules.empty() ) {
                     for( auto& m : _modules ) {
                         delete m.second;
                     }
-                    _modules.clear( );
+                    _modules.clear();
                 }
             }
-            return bool( !_modules.empty( ) );
+            return bool( !_modules.empty() );
+        }
+
+        const mapModule& CProcess::GetModules() const
+        {
+            return _modules;
+        }
+
+        CModule* CProcess::GetModuleByName( const std::string& name )
+        {
+            auto res = _modules.find( name );
+            if( res != _modules.end() ) {
+                return res->second;
+            }
+            return nullptr;
+        }
+
+        CProcess* CProcess::Singleton( void )
+        {
+            static auto g_pProcess = new CProcess();
+            return g_pProcess;
         }
     }
 }

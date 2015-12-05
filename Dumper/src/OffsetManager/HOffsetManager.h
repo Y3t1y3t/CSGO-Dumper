@@ -2,10 +2,7 @@
 #define _HOFFSETMANAGER_H_
 
 #include "..\Include\HWin.h"
-
 #include "..\Remote\HRemote.h"
-
-#include <sstream>
 
 namespace Dumper
 {
@@ -15,31 +12,22 @@ namespace Dumper
         {
         public:
 
-                                                    COffsetManager( void );
-                                                    ~COffsetManager( void );
-
-
-        public:
-
-            void                                    Dump( void ) const;
-
+            static void                             Dump( void );
 
         private:
 
-            void                                    DumpNetVar( const std::string& tablename, const std::string& varname, uintptr_t offset, std::stringstream& ss ) const;
-            void                                    DumpPatternOffset( const std::string& tablename, const std::string& varname, Remote::CModule* pModule, const unsigned char* pPattern, const char* pMask, int type, uintptr_t pattern_offset, uintptr_t address_offset, std::stringstream& ss ) const;
-            void                                    LogToStringStream( const std::string& tablename, const std::string& varname, uintptr_t offset, std::stringstream& ss ) const;
-        };
+            static void                             DumpNetVar( const std::string& tablename, const std::string& varname, uintptr_t offset, std::stringstream& ss );
+            static void                             DumpPatternOffset( const std::string& tablename, const std::string& varname, const std::string& module, const char* pattern, int type, uintptr_t pattern_offset, uintptr_t address_offset, std::stringstream& ss );
+            static void                             LogToStringStream( const std::string& tablename, const std::string& varname, uintptr_t offset, std::stringstream& ss );
 
-        inline COffsetManager* Singleton( void ) {
-            static auto g_pOffsetManager = new COffsetManager( );
-            return g_pOffsetManager;
-        }
+        public:
+            static COffsetManager* Singleton( void );
+        };
     }
 }
 
 #ifndef pOffsetManager
-#define pOffsetManager Dumper::OffsetManager::Singleton( )
+#define pOffsetManager Dumper::OffsetManager::COffsetManager::Singleton( )
 #endif
 
 #endif /* _HOFFSETMANAGER_H_ */
