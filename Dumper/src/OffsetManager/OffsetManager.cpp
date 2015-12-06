@@ -183,8 +183,8 @@ namespace Dumper
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x4, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwMouseEnable", "client.dll",
-                               "A3 ? ? ? ? 83 3D ? ? ? ? ? A1 ? ? ? ? C6 05 68 2C B9 18",
-                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x1, 0x0, ss );
+                               "F3 0F 10 05 ? ? ? ? EB 17 8B 01 8B 40 30 FF D0 F3 0F 10 0D",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x4, 0x5C, ss );
 
             std::ofstream( "OffsetManager.txt" ) << ss.str();
         }
