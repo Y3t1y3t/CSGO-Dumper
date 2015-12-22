@@ -115,7 +115,7 @@ namespace Dumper
 
             std::stringstream ss;
             for( auto i = 0; i < 4; ++i ) {
-                ss << std::hex << ( ( firstclass >> 8 * i ) & 0xFF ) << " ";
+                ss << std::hex << std::setw(2) << std::setfill('0') << ( ( firstclass >> 8 * i ) & 0xFF ) << " ";
             }
 
             firstclass = pProcess->FindPattern( "client.dll", ss.str().c_str(), Remote::SignatureType_t::READ, 0x2B, 0 );
