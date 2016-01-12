@@ -87,7 +87,7 @@ namespace Dumper
             LogToStringStream( "DT_Local", "m_vecPunch",
                                pNetVarManager->GetNetVar( "DT_BasePlayer", "m_Local" ) + 0x70, ss );
             LogToStringStream( "DT_Local", "m_iCrossHairID",
-                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x50, ss );
+                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x4C, ss );
 
             LogToStringStream( "BaseEntity", "m_dwModel", 0x6C, ss );
             LogToStringStream( "BaseEntity", "m_dwIndex", 0x64, ss );
