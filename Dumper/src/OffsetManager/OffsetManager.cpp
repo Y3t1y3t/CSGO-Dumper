@@ -37,7 +37,7 @@ namespace Dumper
             DumpNetVar( "DT_BaseCombatWeapon", "m_iPrimaryAmmoType", 0x0, ss );
 
             LogToStringStream( "DT_BaseCombatWeapon", "m_iWeaponID",
-                               pNetVarManager->GetNetVar( "DT_WeaponCSBase", "m_fAccuracyPenalty" ) + 0x24, ss );
+                               pNetVarManager->GetNetVar( "DT_WeaponCSBase", "m_fAccuracyPenalty" ) + 0x2C, ss );
 
             DumpNetVar( "DT_WeaponCSBaseGun", "m_zoomLevel", 0x0, ss );
 
