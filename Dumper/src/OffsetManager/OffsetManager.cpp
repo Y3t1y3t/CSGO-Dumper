@@ -167,7 +167,7 @@ namespace Dumper
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x12, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwGlowObject", "client.dll",
-                               "A1 ? ? ? ? A8 01 75 ? 0F 57 C0 C7 05",
+                               "A1 ? ? ? ? A8 01 75 4E 0F 57 C0",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x58, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwForceJump", "client.dll",

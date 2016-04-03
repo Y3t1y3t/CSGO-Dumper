@@ -79,9 +79,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NetVarManager\NetVarManager.cpp" />
     <ClCompile Include="src\OffsetManager\OffsetManager.cpp" />
