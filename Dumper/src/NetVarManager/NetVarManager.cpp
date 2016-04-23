@@ -111,7 +111,7 @@ namespace Dumper
 
         bool CNetVarManager::Load( void )
         {
-            auto firstclass = pProcess->FindPattern( "client.dll", "44 54 5F 54 45 57 6F 72 6C 64 44 65 63 61", 0, 0, 0 );
+            auto firstclass = pProcess->FindPattern( "client.dll", "44 54 5F 54 45 57 6F 72 6C 64 44 65 63 61 6C", 0, 0, 0 );
 
             std::stringstream ss;
             for( auto i = 0; i < 4; ++i ) {
