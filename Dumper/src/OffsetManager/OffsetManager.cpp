@@ -62,10 +62,6 @@ namespace Dumper
             DumpPatternOffset( "DT_CSPlayerResource", "CSPlayerResource", "client.dll",
                                "8B 3D ? ? ? ? 85 FF 0F 84 ? ? ? ? 81 C7",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
-
-            DumpPatternOffset( "BaseEntity", "m_bDormant", "client.dll",
-                               "88 9E ? ? ? ? E8 ? ? ? ? 53 8D 8E ? ? ? ? E8 ? ? ? ? 8B 06 8B CE 53 FF 90 ? ? ? ? 8B 46 64 0F B6 CB 5E 5B 66 89 0C C5 ? ? ? ? 5D C2 04 00",
-                               Remote::SignatureType_t::READ, 0x2, 0x0, ss );
                                
             DumpNetVar( "DT_CSPlayerResource", "m_iCompetitiveRanking", 0x0, ss );
             DumpNetVar( "DT_CSPlayerResource", "m_iCompetitiveWins", 0x0, ss );
@@ -91,7 +87,11 @@ namespace Dumper
             LogToStringStream( "DT_Local", "m_vecPunch",
                                pNetVarManager->GetNetVar( "DT_BasePlayer", "m_Local" ) + 0x70, ss );
             LogToStringStream( "DT_Local", "m_iCrossHairID",
-                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x4C, ss );
+                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x4C, ss );            
+
+            DumpPatternOffset( "BaseEntity", "m_bDormant", "client.dll",
+                               "88 9E ? ? ? ? E8 ? ? ? ? 53 8D 8E ? ? ? ? E8 ? ? ? ? 8B 06 8B CE 53 FF 90 ? ? ? ? 8B 46 64 0F B6 CB 5E 5B 66 89 0C C5 ? ? ? ? 5D C2 04 00",
+                               Remote::SignatureType_t::READ, 0x2, 0x0, ss );
 
             LogToStringStream( "BaseEntity", "m_dwModel", 0x6C, ss );
             LogToStringStream( "BaseEntity", "m_dwIndex", 0x64, ss );
@@ -132,7 +132,7 @@ namespace Dumper
                                Remote::SignatureType_t::READ, 0x4, 0x0, ss );
 
             DumpPatternOffset( "EngineRender", "m_dwViewMatrix", "client.dll",
-                               "81 C6 ? ? ? ? 88 45 92 0F B6 C0",
+                               "81 C6 ? ? ? ? 88 45 9A 0F B6 C0",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x33C, 0xB0, ss );
 
             DumpPatternOffset( "EngineRender", "m_dwEnginePosition", "engine.dll",
