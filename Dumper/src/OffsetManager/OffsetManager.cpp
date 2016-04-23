@@ -63,6 +63,10 @@ namespace Dumper
                                "8B 3D ? ? ? ? 85 FF 0F 84 ? ? ? ? 81 C7",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
 
+            DumpPatternOffset( "BaseEntity", "m_bDormant", "client.dll",
+                               "88 9E ? ? ? ? E8 ? ? ? ? 53 8D 8E ? ? ? ? E8 ? ? ? ? 8B 06 8B CE 53 FF 90 ? ? ? ? 8B 46 64 0F B6 CB 5E 5B 66 89 0C C5 ? ? ? ? 5D C2 04 00",
+                               Remote::SignatureType_t::READ, 0x2, 0x0, ss );
+                               
             DumpNetVar( "DT_CSPlayerResource", "m_iCompetitiveRanking", 0x0, ss );
             DumpNetVar( "DT_CSPlayerResource", "m_iCompetitiveWins", 0x0, ss );
             DumpNetVar( "DT_CSPlayerResource", "m_iKills", 0x0, ss );
@@ -94,7 +98,6 @@ namespace Dumper
             LogToStringStream( "BaseEntity", "m_dwBoneMatrix",
                                pNetVarManager->GetNetVar( "DT_BaseAnimating", "m_nForceBone" ) + 0x1C, ss );
             LogToStringStream( "BaseEntity", "m_bMoveType", 0x258, ss );
-            LogToStringStream( "BaseEntity", "m_bDormant", 0xE9, ss );
 
             DumpPatternOffset( "ClientState", "m_dwClientState", "engine.dll",
                                "A1 ? ? ? ? F3 0F 11 80 ? ? ? ? D9 46 04 D9 05",
