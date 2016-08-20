@@ -87,7 +87,7 @@ namespace Dumper
             LogToStringStream( "DT_Local", "m_vecPunch",
                                pNetVarManager->GetNetVar( "DT_BasePlayer", "m_Local" ) + 0x70, ss );
             LogToStringStream( "DT_Local", "m_iCrossHairID",
-                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x4C, ss );            
+                               pNetVarManager->GetNetVar( "DT_CSPlayer", "m_bHasDefuser" ) + 0x5C, ss );            
 
             DumpPatternOffset( "BaseEntity", "m_bDormant", "client.dll",
                                "88 9E ? ? ? ? E8 ? ? ? ? 53 8D 8E ? ? ? ? E8 ? ? ? ? 8B 06 8B CE 53 FF 90 ? ? ? ? 8B 46 64 0F B6 CB 5E 5B 66 89 0C C5 ? ? ? ? 5D C2 04 00",
