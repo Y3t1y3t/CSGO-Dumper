@@ -133,7 +133,7 @@ namespace Dumper
 
             DumpPatternOffset( "EngineRender", "m_dwViewMatrix", "client.dll",
                                "81 C6 ? ? ? ? 88 45 9A 0F B6 C0",
-                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x33C, 0xB0, ss );
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x352, 0xB0, ss );
 
             DumpPatternOffset( "EngineRender", "m_dwEnginePosition", "engine.dll",
                                "F3 0F 11 15 ? ? ? ? F3 0F 11 0D ? ? ? ? F3 0F 11 05 ? ? ? ? F3 0F 11 3D",
