@@ -23,3 +23,8 @@
   * m_dwGlowObject  
   * m_dwForceJump  
   * m_dwForceAttack  
+  * m_dwForceAttack2  
+  * m_dwForceForward  
+  * m_dwForceBackward  
+  * m_dwForceLeft  
+  * m_dwForceRight  

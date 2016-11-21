@@ -180,6 +180,26 @@ namespace Dumper
             DumpPatternOffset( "Extra", "m_dwForceAttack", "client.dll"
                                , "89 15 ? ? ? ? 8B 15 ? ? ? ? F6 C2 03 74 03 83 CE 04",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+			
+            DumpPatternOffset( "Extra", "m_dwForceAttack2", "client.dll"
+                               , "89 15 ? ? ? ? 8B 15 ? ? ? ? F6 C2 03 74 06 81 CE ? 20 ? ? A9 ? 20 ? ? BF FD FF FF FF",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+
+			DumpPatternOffset( "Extra", "m_dwForceForward", "client.dll"
+                               , "8B 15 ? ? ? ? F6 C2 03 74 03 83 CE 08 A8 08 BF FD FF FF FF",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+			
+            DumpPatternOffset( "Extra", "m_dwForceBackward", "client.dll"
+                               , "8B 15 ? ? ? ? F6 C2 03 74 03 83 CE 10 A8 10 BF FD FF FF FF",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+			
+            DumpPatternOffset( "Extra", "m_dwForceLeft", "client.dll"
+                               , "89 15 ? ? ? ? 8B 15 ? ? ? ? F6 C2 03 74 06 81 CE ? 04 ? ? A9 ? 04 ? ? BF FD FF FF FF",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+
+            DumpPatternOffset( "Extra", "m_dwForceRight", "client.dll"
+                               , "89 15 ? ? ? ? 8B 15 ? ? ? ? F6 C2 03 74 06 81 CE ? 08 ? ? A9 ? 08 ? ? BF FD FF FF FF",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
 
             DumpPatternOffset( "Extra", "m_dwSensitivity", "client.dll",
                                "F3 0F 10 05 ? ? ? ? EB 17 8B 01 8B 40 30 FF D0 F3 0F 10 0D",
