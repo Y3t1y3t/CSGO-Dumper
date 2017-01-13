@@ -147,7 +147,7 @@ namespace Dumper
 
             DumpPatternOffset( "LocalPlayer", "m_dwLocalPlayer", "client.dll",
                                "A3 ? ? ? ? C7 05 ? ? ? ? ? ? ? ? E8 ? ? ? ? 59 C3 6A",
-                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x1, 0x2C, ss );
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x1, 0x10, ss );
 
             DumpPatternOffset( "EntityList", "m_dwEntityList", "client.dll",
                                "BB ? ? ? ? 83 FF 01 0F 8C ? ? ? ? 3B F8",
