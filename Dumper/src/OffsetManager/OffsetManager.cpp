@@ -200,10 +200,15 @@ namespace Dumper
             DumpPatternOffset( "Extra", "m_dwForceRight", "client.dll"
                                , "89 15 ? ? ? ? 8B 15 ? ? ? ? F6 C2 03 74 06 81 CE ? 08 ? ? A9 ? 08 ? ? BF FD FF FF FF",
                                Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x2, 0x0, ss );
+							   
+	    DumpPatternOffset( "Extra", "m_pSensitivity", "client.dll"
+			      , "6A 01 51 C7 04 24 17 B7 D1 38 B9",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0xB, 0x0, ss );
 
-            DumpPatternOffset( "Extra", "m_dwSensitivity", "client.dll",
-                               "F3 0F 10 05 ? ? ? ? EB 17 8B 01 8B 40 30 FF D0 F3 0F 10 0D",
-                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0x4, 0x0, ss );
+            DumpPatternOffset( "Extra", "m_dwSensitivity", "client.dll"
+			      , "6A 01 51 C7 04 24 17 B7 D1 38 B9",
+                               Remote::SignatureType_t::READ | Remote::SignatureType_t::SUBTRACT, 0xB, 0x2C, ss );
+		   
 
             DumpPatternOffset( "Extra", "m_dwMouseEnable", "client.dll",
                                "F3 0F 10 05 ? ? ? ? EB 17 8B 01 8B 40 30 FF D0 F3 0F 10 0D",
